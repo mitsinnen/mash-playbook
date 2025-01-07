@@ -1,0 +1,216 @@
+---
+
+# Below is an example which installs a few services on the host, in different configuration.
+# You should tweak this example as you see fit and enable the services that you need.
+
+########################################################################
+#                                                                      #
+# Playbook                                                             #
+#                                                                      #
+########################################################################
+
+# Put a strong secret below, generated with `pwgen -s 64 1` or in another way
+# Various other secrets will be derived from this secret automatically.
+mash_playbook_generic_secret_key: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  61323166333835376635303536666466663837643432353336313434343431613931613939653833
+  6363393664313132343631643963346138666162643034340a373239633230373130623438363561
+  33306462626138666365356233363461313965366261383031303963653531393663656232393433
+  3339643933333536370a323764383635643662363062353962376663653563653637663661616462
+  33336230343632306633373166353736656664616233316137396165353536626261656130613662
+  64326666383332373463376632383538353363653561616134653963633064663162363461656333
+  37623632633539633632346363326162346265376661373133666165373764333335386334363737
+  61633637356566653335
+
+########################################################################
+#                                                                      #
+# /Playbook                                                            #
+#                                                                      #
+########################################################################
+
+
+########################################################################
+#                                                                      #
+# Docker                                                               #
+#                                                                      #
+########################################################################
+
+# To disable Docker installation (in case you'd be installing Docker in another way),
+# remove the line below.
+mash_playbook_docker_installation_enabled: true
+
+# To disable Docker SDK for Python installation (in case you'd be installing the SDK in another way),
+# remove the line below.
+devture_docker_sdk_for_python_installation_enabled: true
+
+########################################################################
+#                                                                      #
+# /Docker                                                              #
+#                                                                      #
+########################################################################
+
+
+
+########################################################################
+#                                                                      #
+# com.devture.ansible.role.timesync                                    #
+#                                                                      #
+########################################################################
+
+# To ensure the server's clock is synchronized (using systemd-timesyncd/ntpd),
+# we enable the timesync service.
+
+devture_timesync_installation_enabled: true
+
+########################################################################
+#                                                                      #
+# /com.devture.ansible.role.timesync                                   #
+#                                                                      #
+########################################################################
+
+
+
+########################################################################
+#                                                                      #
+# traefik                                                              #
+#                                                                      #
+########################################################################
+
+# Most services require a reverse-proxy, so we enable Traefik here.
+#
+# Learn more about the Traefik service in docs/services/traefik.md
+#
+# If your server already runs Traefik, you will run into port conflicts by installing it twice.
+# See docs/interoperability.md for solutions.
+
+mash_playbook_reverse_proxy_type: playbook-managed-traefik
+
+# The email address that Traefik will pass to Let's Encrypt when obtaining SSL certificates
+traefik_config_certificatesResolvers_acme_email: mail@oliverlorenz.com
+
+########################################################################
+#                                                                      #
+# /traefik                                                             #
+#                                                                      #
+########################################################################
+
+
+
+########################################################################
+#                                                                      #
+# postgres                                                             #
+#                                                                      #
+########################################################################
+
+# Most services require a Postgres database, so we enable Postgres here.
+#
+# Learn more about the Postgres service in docs/services/postgres.md
+
+postgres_enabled: true
+
+# Put a strong password below, generated with `pwgen -s 64 1` or in another way
+postgres_connection_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  36376139633062383333326534636430316539373938383331613361346161363130333332653531
+  3865326263646336343564346663653731386437666435360a366237306162656333303364653262
+  65366635636234643238363938356462313663623630636533363364613832303364623630373835
+  6333623162613865320a663662386234396433393731346533383437636562363661616532616132
+  31623863353563316536643839373938346331636231363433633131326133346163376365633264
+  62643264613632323535383731393833653536323232646432393837386436306234373832316330
+  30316661636235646165336465366231613466643262663361393866643931643630616234336336
+  66666234666262633061
+
+########################################################################
+#                                                                      #
+# /postgres                                                            #
+#                                                                      #
+########################################################################
+
+
+
+########################################################################
+#                                                                      #
+# exim_relay                                                           #
+#                                                                      #
+########################################################################
+
+# Various services need to send out email.
+#
+# Enabling this Exim relay SMTP mailer service automatically wires
+# all other services to send email through it.
+#
+# exim-relay then gives you a centralized place for configuring email-sending.
+
+exim_relay_enabled: false
+
+exim_relay_hostname: mash.example.com
+
+exim_relay_sender_address: "someone@{{ exim_relay_hostname }}"
+
+# By default, exim-relay attempts to deliver emails directly.
+# To make it relay via an external SMTP server, see docs/services/exim-relay.md
+
+########################################################################
+#                                                                      #
+# /exim_relay                                                          #
+#                                                                      #
+########################################################################
+
+# You can add additional services here, as you see fit.
+# To discover new services and configuration, see docs/supported-services.md
+
+########################################################################
+#                                                                      #
+# keydb                                                                #
+#                                                                      #
+########################################################################
+
+keydb_enabled: true
+
+########################################################################
+#                                                                      #
+# /keydb                                                               #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# paperless                                                            #
+#                                                                      #
+########################################################################
+
+paperless_enabled: true
+
+paperless_hostname: paperless.mitsinnen.me
+
+# Set the following variables to create an initial admin user
+# It will not re-create an admin user, it will not change a password if the user is already created
+paperless_admin_user: admin
+paperless_admin_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  39376139646234636661613938353136616161343735303861633038653233363664333532393931
+  6334653964366437373061353636383037666532353666340a336533623864333231663830366533
+  32633936316337336639633934306435363837653562336633373534623932343431346462343830
+  3364363763633136310a366432386330316364653739623634656138333930373565653236313462
+  34363730333138323136636536366533656533353063643861386633323161303334
+
+# Base configuration as shown above
+
+# Point paperless to the shared KeyDB instance
+paperless_redis_hostname: "{{ keydb_identifier }}"
+
+# Make sure the paperless service (mash-paperless.service) starts after the shared KeyDB service (mash-keydb.service)
+paperless_systemd_required_services_list_custom:
+  - "{{ keydb_identifier }}.service"
+
+# Make sure the paperless container is connected to the container network of the shared KeyDB service (mash-keydb)
+paperless_container_additional_networks_custom:
+  - "{{ keydb_identifier }}"
+
+# KeyDB configuration, as described below
+
+########################################################################
+#                                                                      #
+# /paperless                                                           #
+#                                                                      #
+########################################################################

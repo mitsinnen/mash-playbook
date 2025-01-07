@@ -1,5 +1,3 @@
-/inventory
-
 # ignore roles pulled by ansible-galaxy
 /roles/galaxy/*
 !/roles/galaxy/.gitkeep
@@ -19,3 +17,5 @@
 
 /group_vars/*
 !/group_vars/.gitkeep
+
+/.vaultpass
