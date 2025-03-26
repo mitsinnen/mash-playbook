@@ -2,7 +2,8 @@
 
 [Keycloak](https://www.keycloak.org/) is an open source identity and access management solution.
 
-**Warning**: this service is a new addition to the playbook. It may not fully work or be configured in a suboptimal manner.
+> [!WARNING]
+> This service is a new addition to the playbook. It may not fully work or be configured in a suboptimal manner.
 
 
 ## Dependencies
@@ -64,4 +65,4 @@ Follow the [Keycloak documentation](https://www.keycloak.org/documentation) or o
 
 ## Related services
 
-- [OAuth2-Proxy](oauth2-proxy.md) - A reverse proxy and static file server that provides authentication using OpenID Connect Providers (Google, GitHub, [Authentik](authentik.md), [Keycloak](keycloak.md), and others) to SSO-protect services which do not support SSO natively
+- [OAuth2-Proxy](oauth2-proxy.md) — A reverse proxy and static file server that provides authentication using OpenID Connect Providers (Google, GitHub, [Authentik](authentik.md), [Keycloak](keycloak.md), and others) to SSO-protect services which do not support SSO natively

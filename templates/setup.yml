@@ -159,6 +159,10 @@
     - role: galaxy/docker_registry_purger
     # /role-specific:docker_registry_purger
 
+    # role-specific:dokuwiki
+    - role: galaxy/dokuwiki
+    # /role-specific:dokuwiki
+
     # role-specific:echoip
     - role: galaxy/echoip
     # /role-specific:echoip
@@ -170,6 +174,10 @@
     # role-specific:etcd
     - role: galaxy/etcd
     # /role-specific:etcd
+
+    # role-specific:etherpad
+    - role: galaxy/etherpad
+    # /role-specific:etherpad
 
     # role-specific:exim_relay
     - role: galaxy/exim_relay
@@ -231,6 +239,10 @@
     - role: galaxy/infisical
     # /role-specific:infisical
 
+    # role-specific:headscale
+    - role: galaxy/headscale
+    # /role-specific:headscale
+
     # role-specific:hubsite
     - role: galaxy/hubsite
     # /role-specific:hubsite
@@ -243,9 +255,17 @@
     - role: galaxy/influxdb
     # /role-specific:influxdb
 
+    # role-specific:jackett
+    - role: galaxy/jackett
+    # /role-specific:jackett
+
     # role-specific:jitsi
     - role: galaxy/jitsi
     # /role-specific:jitsi
+
+    # role-specific:joplin_server
+    - role: galaxy/joplin_server
+    # /role-specific:joplin_server
 
     # role-specific:keycloak
     - role: galaxy/keycloak
@@ -254,6 +274,10 @@
     # role-specific:keydb
     - role: galaxy/keydb
     # /role-specific:keydb
+
+    # role-specific:labelstudio
+    - role: galaxy/labelstudio
+    # /role-specific:labelstudio
 
     # role-specific:lago
     - role: galaxy/lago
@@ -299,9 +323,17 @@
     - role: galaxy/notfellchen
     # /role-specific:notfellchen
 
+    # role-specific:ntfy
+    - role: galaxy/ntfy
+    # /role-specific:ntfy
+
     # role-specific:oauth2_proxy
     - role: galaxy/oauth2_proxy
     # /role-specific:oauth2_proxy
+
+    # role-specific:overseerr
+    - role: galaxy/overseerr
+    # /role-specific:overseerr
 
     # role-specific:owncast
     - role: galaxy/owncast
@@ -355,6 +387,14 @@
     - role: galaxy/promtail
     # /role-specific:promtail
 
+    # role-specific:qbittorrent
+    - role: galaxy/qbittorrent
+    # /role-specific:qbittorrent
+
+    # role-specific:radarr
+    - role: galaxy/radarr
+    # /role-specific:radarr
+
     # role-specific:radicale
     - role: galaxy/radicale
     # /role-specific:radicale
@@ -383,9 +423,17 @@
     - role: galaxy/semaphore
     # /role-specific:semaphore
 
+    # role-specific:send
+    - role: galaxy/send
+    # /role-specific:send
+
     # role-specific:soft_serve
     - role: galaxy/soft_serve
     # /role-specific:soft_serve
+
+    # role-specific:sonarr
+    - role: galaxy/sonarr
+    # /role-specific:sonarr
 
     # role-specific:stirling_pdf
     - role: galaxy/stirling_pdf
@@ -402,6 +450,10 @@
     # role-specific:telegraf
     - role: galaxy/telegraf
     # /role-specific:telegraf
+
+    # role-specific:tsdproxy
+    - role: galaxy/tsdproxy
+    # /role-specific:tsdproxy
 
     # role-specific:valkey
     - role: galaxy/valkey

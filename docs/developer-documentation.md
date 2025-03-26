@@ -1,4 +1,4 @@
-# Developer Documentation
+# Developer documentation
 
 ## Support a new service | Create your own role
 
@@ -54,7 +54,7 @@ There are a few files that you need to adapt:
 <details>
 
 <summary> file: templates / group_vars_mash_servers </summary>
-In this file you wire your role with the rest of the playbook - integrating with the service manager or potentially with other roles.
+In this file you wire your role with the rest of the playbook — integrating with the service manager or potentially with other roles.
 
 ```yaml
 # role-specific:systemd_service_manager
@@ -103,7 +103,7 @@ mash_playbook_postgres_managed_databases_auto_itemized:
         'name': YOUR-SERVICE_database_name,
         'username': YOUR-SERVICE_database_username,
         'password': YOUR-SERVICE_database_password,
-      } if gYOUR-SERVICE_enabled else omit)
+      } if YOUR-SERVICE_enabled else omit)
     }}
   # /role-specific:YOUR-SERVICE
 
@@ -169,7 +169,7 @@ YOUR-SERVICE_container_additional_networks_auto: |
   }}
 
 # role-specific:exim_relay
-YOUR-SERVICE_config_mailer_enabled: "{{ 'true' if exim_relay_enabled else '' }}"
+YOUR-SERVICE_config_mailer_enabled: "{{ exim_relay_enabled }}"
 YOUR-SERVICE_config_mailer_smtp_addr: "{{ exim_relay_identifier if exim_relay_enabled else '' }}"
 YOUR-SERVICE_config_mailer_smtp_port: 8025
 YOUR-SERVICE_config_mailer_from: "{{ exim_relay_sender_address if exim_relay_enabled else '' }}"

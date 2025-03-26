@@ -2,7 +2,8 @@
 
 [Calibre-Web](https://github.com/janeczku/calibre-web) is a web app that offers a clean and intuitive interface for browsing, reading, and downloading eBooks using a valid [Calibre](https://calibre-ebook.com/) database.
 
-**Warning** Calibre-Web currently does not support running the container rootless, therefore the role has not the usual security features of other services provided by this playbook. This put your system more at higher risk as vulnerabilities can have a higher impact.
+> [!WARNING]
+> Calibre-Web currently does not support running the container rootless, therefore the role has not the usual security features of other services provided by this playbook. This put your system more at higher risk as vulnerabilities can have a higher impact.
 
 ## Dependencies
 
@@ -40,7 +41,7 @@ calibre_web_path_prefix: /calibre-web
 #
 #
 # Enable this extension explicitly to add the Calibre ebook-convert binary (x64 only). Omit this variable for a lightweight image.
-# The path to the binary is /usr/bin/ebook-convert (has to be specified in the web interface - also specify the path to Calibre binaries as well; usr/bin)
+# The path to the binary is /usr/bin/ebook-convert (has to be specified in the web interface — also specify the path to Calibre binaries as well; usr/bin)
 #calibre_web_environment_variables_extension: |
 #  DOCKER_MODS=linuxserver/mods:universal-calibre
 
@@ -141,4 +142,4 @@ After installation, you can go to the calibre-web URL, as defined in `calibre_we
 
 ## Recommended other services
 
-- [Syncthing](syncthing.md) - a continuous file synchronization program which synchronizes files between two or more computers in real time. See [Syncthing integration](#syncthing-integration)
+- [Syncthing](syncthing.md) — a continuous file synchronization program which synchronizes files between two or more computers in real time. See [Syncthing integration](#syncthing-integration)
