@@ -214,3 +214,81 @@ paperless_container_additional_networks_custom:
 # /paperless                                                           #
 #                                                                      #
 ########################################################################
+
+########################################################################
+#                                                                      #
+# vaultwarden                                                          #
+#                                                                      #
+########################################################################
+
+vaultwarden_enabled: true
+vaultwarden_hostname: vault.mitsinnen.me
+
+# Configure a strong admin secret here (generated with `pwgen -s 64 1`, etc).
+# You will need this for accessing the /admin section useful for creating your first user
+# and for doing various maintenance tasks.
+# In the future, you can also consider disabling the /admin section by removing this configuration line.
+vaultwarden_config_admin_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  33313465643664626134393633663764363530316665393364336363386332343033393738386331
+  3565666132346666643839373336373961313735636631320a353733316134623734373838323139
+  34653533653263303738613264656636326138333535366536396237626166323039336336353832
+  6266306664383030350a396236663666613461636631303432643038613163373030393161333932
+  37666261306634663637326565623332383536313262356437303230666365636238613735633832
+  34623462623238613335333531613337356366346536393032353436626562613033343762383866
+  36383638336138323363643034336539346532386265303263313935653236643163393337623036
+  62393061393261623933
+
+# Require people to validate their email addresses. When enabled, SMTP settings (below) are required.
+vaultwarden_config_signups_verify: true
+
+# Example SMTP settings.
+# If you keep `vaultwarden_config_signups_verify` enabled, you will need to specify them.
+# There are more SMTP variables in `roles/custom/devture_vaultwarden/defaults/main.yml`, in case you need them.
+# If you decide you won't set up SMTP, consider removing all these configuration lines below
+# and removing `vaultwarden_config_signups_verify: true` above.
+vaultwarden_config_smtp_from: hallo@mitsinnen.me
+vaultwarden_config_smtp_host: 'smtp.strato.de'
+vaultwarden_config_smtp_port: 587
+vaultwarden_config_smtp_security: starttls
+vaultwarden_config_smtp_username: 'hallo@mitsinnen.me'
+vaultwarden_config_smtp_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  37383737383566613031333535393530386438326361333934656365336330363739316534653863
+  3262326231303964316165633030363032643635613462370a616131326163303263626137643361
+  61396462396438366536646461366364653466363036326135306162366133626265363237663265
+  6532353065613061630a333863653930363939633831666166663561663236623664623939636462
+  62343934376436346233356663653165643037653736393564333630333261333539
+
+########################################################################
+#                                                                      #
+# /vaultwarden                                                         #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# collabora-online                                                     #
+#                                                                      #
+########################################################################
+
+collabora_online_enabled: true
+collabora_online_hostname: collabora.mitsinnen.me
+
+# A password for the admin interface, available at: https://COLLABORA_ONLINE_DOMAIN/browser/dist/admin/admin.html
+# Use only alpha-numeric characters
+collabora_online_env_variable_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  63363464393433303438623739343038303566313734353664363865666663353139636532333536
+  6463336131666532326165306164663961393937373230620a336239333033313132663034376431
+  31353562643035623136643837363032653132646138366233646265333432333736626263383864
+  6636626339383738330a363037333830643336366663363762333164656133306638633934333737
+  33663631343637323366306363343835643564633638363431633862396535356539
+
+collabora_online_aliasgroup: "https://verein.mitsinnen.me:443"
+
+########################################################################
+#                                                                      #
+# /collabora-online                                                    #
+#                                                                      #
+########################################################################
