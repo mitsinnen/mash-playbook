@@ -1,4 +1,11 @@
 ---
+smtp_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  37393964323965663638633638363761376661633534356533613834356431333032396165633461
+  6363316636633161633034333464393035616137323838310a356462656431383131653638393531
+  63326137366439366431393734333865626633323634313964643066633264316130613733313230
+  3466353731366663340a343633393338343431663636363461363132636136383861313764333639
+  66363733326537366465613166313765613032316266383233333133393064363664
 
 # Below is an example which installs a few services on the host, in different configuration.
 # You should tweak this example as you see fit and enable the services that you need.
@@ -84,9 +91,6 @@ devture_timesync_installation_enabled: true
 # See docs/interoperability.md for solutions.
 
 mash_playbook_reverse_proxy_type: playbook-managed-traefik
-
-# The email address that Traefik will pass to Let's Encrypt when obtaining SSL certificates
-traefik_config_certificatesResolvers_acme_email: mail@oliverlorenz.com
 
 ########################################################################
 #                                                                      #
@@ -290,5 +294,28 @@ collabora_online_aliasgroup: "https://verein.mitsinnen.me:443"
 ########################################################################
 #                                                                      #
 # /collabora-online                                                    #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# n8n                                                                  #
+#                                                                      #
+########################################################################
+
+n8n_enabled: true
+n8n_hostname: n8n.mitsinnen.me
+n8n_environment_variables_additional_variables: |
+  N8N_EMAIL_MODE=smtp
+  N8N_SMTP_HOST=smtp.strato.de
+  N8N_SMTP_PORT=465
+  N8N_SMTP_USER=olorenz@mailbox.org
+  N8N_SMTP_PASS={{ smtp_password }}
+  N8N_SMTP_SENDER=hallo@mitsinnen.me
+  N8N_SMTP_SSL=true
+
+########################################################################
+#                                                                      #
+# /n8n                                                                 #
 #                                                                      #
 ########################################################################
