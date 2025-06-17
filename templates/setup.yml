@@ -193,6 +193,10 @@
     - role: galaxy/endlessh
     # /role-specific:endlessh
 
+    # role-specific:engelsystem
+    - role: custom/engelsystem
+    # /role-specific:engelsystem
+
     # role-specific:etcd
     - role: galaxy/etcd
     # /role-specific:etcd

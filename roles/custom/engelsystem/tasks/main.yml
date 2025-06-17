@@ -1,0 +1,23 @@
+---
+- name: Perform Engelsystem installation tasks
+  tags:
+    - setup-all
+    - setup-engelsystem
+    - install-all
+    - install-engelsystem
+  block:
+    - name: Validate Engelsystem configuration
+      when: engelsystem_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+    - name: Install Engelsystem
+      when: engelsystem_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
+
+- name: Perform Engelsystem uninstallation tasks
+  tags:
+    - setup-all
+    - setup-engelsystem
+  block:
+    - name: Uninstall Engelsystem
+      when: not engelsystem_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
