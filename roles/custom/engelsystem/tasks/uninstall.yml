@@ -1,0 +1,25 @@
+---
+- name: Check existence of Engelsystem systemd service
+  ansible.builtin.stat:
+    path: "{{ devture_systemd_docker_base_systemd_path }}/{{ engelsystem_identifier }}.service"
+  register: engelsystem_service_stat
+
+- name: Uninstall Engelsystem systemd services and files
+  when: engelsystem_service_stat.stat.exists | bool
+  block:
+    - name: Ensure Engelsystem systemd service is stopped
+      ansible.builtin.service:
+        name: "{{ engelsystem_identifier }}"
+        state: stopped
+        enabled: false
+        daemon_reload: true
+
+    - name: Ensure Engelsystem systemd service does not exist
+      ansible.builtin.file:
+        path: "{{ devture_systemd_docker_base_systemd_path }}/{{ engelsystem_identifier }}.service"
+        state: absent
+
+    - name: Ensure Engelsystem path does not exist
+      ansible.builtin.file:
+        path: "{{ engelsystem_base_path }}"
+        state: absent

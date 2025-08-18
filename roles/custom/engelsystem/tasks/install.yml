@@ -1,0 +1,48 @@
+---
+- name: Ensure Engelsystem path exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+    owner: "{{ engelsystem_uid }}"
+    group: "{{ engelsystem_gid }}"
+  with_items:
+    - "{{ engelsystem_base_path }}"
+
+- name: Ensure Engelsystem support files installed
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/{{ item }}.j2"
+    dest: "{{ engelsystem_base_path }}/{{ item }}"
+    mode: "0640"
+    owner: "{{ engelsystem_uid }}"
+    group: "{{ engelsystem_gid }}"
+  with_items:
+    - env
+    - labels
+
+- debug:
+    msg: "Engelsystem container image: {{ engelsystem_container_image }}"
+
+- name: Ensure Engelsystem container image is pulled
+  community.docker.docker_image:
+    name: "{{ engelsystem_container_image }}"
+    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+    force_source: "{{ engelsystem_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
+    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else engelsystem_container_image_force_pull }}"
+  register: result
+  retries: "{{ devture_playbook_help_container_retries_count }}"
+  delay: "{{ devture_playbook_help_container_retries_delay }}"
+  until: result is not failed
+
+- name: Ensure Engelsystem container network is created
+  community.docker.docker_network:
+    enable_ipv6: "{{ devture_systemd_docker_base_ipv6_enabled }}"
+    name: "{{ engelsystem_container_network }}"
+    driver: bridge
+    driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
+
+- name: Ensure Engelsystem systemd service is present
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/systemd/engelsystem.service.j2"
+    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ engelsystem_identifier }}.service"
+    mode: "0644"

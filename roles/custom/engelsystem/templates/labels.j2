@@ -1,0 +1,39 @@
+{% if engelsystem_container_labels_traefik_enabled %}
+{% if engelsystem_container_labels_traefik_docker_network %}
+traefik.docker.network={{ engelsystem_container_labels_traefik_docker_network }}
+{% endif %}
+
+{% set middlewares = [] %}
+
+{% if engelsystem_container_labels_traefik_additional_request_headers.keys() | length > 0 %}
+{% for name, value in engelsystem_container_labels_traefik_additional_request_headers.items() %}
+traefik.http.middlewares.{{ engelsystem_identifier }}-add-request-headers.headers.customrequestheaders.{{ name }}={{ value }}
+{% endfor %}
+{% set middlewares = middlewares + [engelsystem_identifier + '-add-request-headers'] %}
+{% endif %}
+
+{% if engelsystem_container_labels_traefik_additional_response_headers.keys() | length > 0 %}
+{% for name, value in engelsystem_container_labels_traefik_additional_response_headers.items() %}
+traefik.http.middlewares.{{ engelsystem_identifier }}-add-response-headers.headers.customresponseheaders.{{ name }}={{ value }}
+{% endfor %}
+{% set middlewares = middlewares + [engelsystem_identifier + '-add-response-headers'] %}
+{% endif %}
+
+traefik.enable=true
+{% endif %}
+traefik.http.routers.{{ engelsystem_identifier }}.rule=Host("{{ engelsystem_hostname }}")
+{% if engelsystem_container_labels_traefik_priority | int > 0 %}
+traefik.http.routers.{{ engelsystem_identifier }}.priority={{ engelsystem_container_labels_traefik_priority }}
+{% endif %}
+{% if middlewares | length > 0 %}
+traefik.http.routers.{{ engelsystem_identifier }}.middlewares={{ middlewares | join(',') }}
+{% endif %}
+traefik.http.routers.{{ engelsystem_identifier }}.service={{ engelsystem_identifier }}
+traefik.http.routers.{{ engelsystem_identifier }}.entrypoints={{ engelsystem_container_labels_traefik_entrypoints }}
+traefik.http.routers.{{ engelsystem_identifier }}.tls={{ engelsystem_container_labels_traefik_tls | to_json }}
+{% if engelsystem_container_labels_traefik_tls %}
+traefik.http.routers.{{ engelsystem_identifier }}.tls.certResolver={{ engelsystem_container_labels_traefik_tls_certResolver }}
+{% endif %}
+traefik.http.services.{{ engelsystem_identifier }}.loadbalancer.server.port={{ engelsystem_container_http_port }}
+
+{{ engelsystem_container_labels_additional_labels }}

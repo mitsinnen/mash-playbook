@@ -91,6 +91,20 @@ devture_timesync_installation_enabled: true
 # See docs/interoperability.md for solutions.
 
 mash_playbook_reverse_proxy_type: playbook-managed-traefik
+traefik_dashboard_enabled: true
+traefik_dashboard_hostname: mash.mitsinnen.me
+traefik_dashboard_basicauth_enabled: true
+traefik_dashboard_basicauth_user: admin
+traefik_dashboard_basicauth_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  35303735303036363864353536386531626362643639663638323030633266666563376537613762
+  3334626130623336623262383239313136313366396433640a373466636636356362396335643831
+  37393534623634323663353837383731663739323030376437333631316531323632643231656162
+  6233333763373737650a356437393965376132353534353531623064643866346261336531306461
+  61376563623962656266333065616464633135646630666434366230663061313761636432356261
+  38343762383765363335633234343265353035366234393439343262623366353965353966363664
+  65326439356536653065666439363464303261316538316665366434376437663164323239653837
+  64303733303538343665
 
 ########################################################################
 #                                                                      #
@@ -130,33 +144,27 @@ postgres_connection_password: !vault |
 #                                                                      #
 ########################################################################
 
-
-
 ########################################################################
 #                                                                      #
-# exim_relay                                                           #
+# mariadb                                                              #
 #                                                                      #
 ########################################################################
 
-# Various services need to send out email.
-#
-# Enabling this Exim relay SMTP mailer service automatically wires
-# all other services to send email through it.
-#
-# exim-relay then gives you a centralized place for configuring email-sending.
-
-exim_relay_enabled: false
-
-exim_relay_hostname: mash.example.com
-
-exim_relay_sender_address: "someone@{{ exim_relay_hostname }}"
-
-# By default, exim-relay attempts to deliver emails directly.
-# To make it relay via an external SMTP server, see docs/services/exim-relay.md
+mariadb_enabled: true
+mariadb_root_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  65306637326462663131663531346437326235376333343161336336353461306131306438376562
+  6432653634313166303836303862613939313833376262300a386363376235666334646239666663
+  30373566653462656163333966623237656261303164313038386634653537666334383162393637
+  6162386366373437610a646363366539623165333131613661383661383864383637326661656338
+  33333063343961323134616238343435393731666462656632653964363030643630633039323230
+  31343162663562336335323736336261323863643361313063313961623363373339366438353766
+  37376138643266633961623138316136666439313932646563363632316131326635653162663934
+  64363230396439663566
 
 ########################################################################
 #                                                                      #
-# /exim_relay                                                          #
+# /mariadb                                                             #
 #                                                                      #
 ########################################################################
 
@@ -281,7 +289,7 @@ collabora_online_hostname: collabora.mitsinnen.me
 
 # A password for the admin interface, available at: https://COLLABORA_ONLINE_DOMAIN/browser/dist/admin/admin.html
 # Use only alpha-numeric characters
-collabora_online_env_variable_password: !vault |
+collabora_online_environment_variable_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   63363464393433303438623739343038303566313734353664363865666663353139636532333536
   6463336131666532326165306164663961393937373230620a336239333033313132663034376431
@@ -289,7 +297,7 @@ collabora_online_env_variable_password: !vault |
   6636626339383738330a363037333830643336366663363762333164656133306638633934333737
   33663631343637323366306363343835643564633638363431633862396535356539
 
-collabora_online_aliasgroup: "https://verein.mitsinnen.me:443"
+collabora_online_environment_variable_aliasgroup1: "https://verein.mitsinnen.me:443"
 
 ########################################################################
 #                                                                      #
@@ -317,5 +325,68 @@ n8n_environment_variables_additional_variables: |
 ########################################################################
 #                                                                      #
 # /n8n                                                                 #
+#                                                                      #
+########################################################################
+
+########################################################################
+#                                                                      #
+# engelsystem                                                          #
+#                                                                      #
+########################################################################
+
+engelsystem_enabled: true
+engelsystem_hostname: engelsystem.mitsinnen.me
+
+
+engelsystem_environment_variable_app_name: Engelsystem
+engelsystem_environment_variable_contact_email: hallo@mitsinnen.me
+engelsystem_environment_variable_mail_driver: smtp
+engelsystem_environment_variable_mail_from_address: hallo@mitsinnen.me
+engelsystem_environment_variable_mail_from_name: MitSinnen Engelsystem
+engelsystem_environment_variable_mail_host: smtp.strato.de
+engelsystem_environment_variable_mail_port: 587
+#engelsystem_environment_variable_mail_encryption: ssl
+engelsystem_environment_variable_mail_tls: false
+engelsystem_environment_variable_mail_username: hallo@mitsinnen.me
+engelsystem_environment_variable_mail_password: aK80WbdeFSnsl2mOZv7F
+# engelsystem_environment_variable_mail_sendmail
+# engelsystem_environment_variable_enable_email_goodies
+engelsystem_environment_variable_setup_admin_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  36383265383535333266653230663032653566333332616463313837616637333664343364343661
+  3964663062646432396561633635623561633962376262360a393431366233633038323431326561
+  36366638363766373462363139343531366631333836656633396430356537643431626336346564
+  3762633831333231370a346134376636626539356561323136313737363233633661373137663230
+  36373634353462313466313530323830386261303333363432343438666339633666
+engelsystem_environment_variable_pronoun_required: false
+engelsystem_environment_variable_firstname_required: true
+engelsystem_environment_variable_lastname_required: true
+engelsystem_environment_variable_tshirt_size_required: false
+engelsystem_environment_variable_mobile_required: true
+engelsystem_environment_variable_dect_required: false
+engelsystem_environment_variable_signup_requires_arrival: true
+engelsystem_environment_variable_autoarrive: false
+engelsystem_environment_variable_supporters_can_promote: true
+engelsystem_environment_variable_signup_advance_hours: 0
+engelsystem_environment_variable_signup_post_minutes: 0
+engelsystem_environment_variable_last_unsubscribe: 3
+engelsystem_environment_variable_enable_dect: false
+engelsystem_environment_variable_enable_mobile_show: true
+engelsystem_environment_variable_enable_full_name: true
+engelsystem_environment_variable_display_full_name:  true
+engelsystem_environment_variable_enable_pronoun: false
+engelsystem_environment_variable_enable_planned_arrival: true
+engelsystem_environment_variable_goodie_types: none
+engelsystem_environment_variable_night_shifts: true
+engelsystem_environment_variable_night_shifts_start: 0
+engelsystem_environment_variable_night_shifts_end: 8
+engelsystem_environment_variable_night_shifts_multiplier: 2
+engelsystem_environment_variable_driving_license_enabled: true
+engelsystem_environment_variable_default_locale: de_DE
+engelsystem_environment_variables_additional_variables: {}
+
+########################################################################
+#                                                                      #
+# /engelsystem                                                         #
 #                                                                      #
 ########################################################################
